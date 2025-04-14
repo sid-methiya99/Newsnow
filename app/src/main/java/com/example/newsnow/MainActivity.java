@@ -1,5 +1,6 @@
 package com.example.newsnow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         categoryChipGroup = findViewById(R.id.categoryChipGroup);
         
-        adapter = new NewsRecyclerAdapter(articleList);
+        adapter = new NewsRecyclerAdapter(articleList, article -> {
+            Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+            intent.putExtra(NewsDetailActivity.EXTRA_NEWS_URL, article.getUrl());
+            startActivity(intent);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }

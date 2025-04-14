@@ -16,10 +16,17 @@ import java.util.List;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder> {
 
+    public interface OnNewsItemClickListener {
+        void onNewsItemClick(Article article);
+    }
+
+    private OnNewsItemClickListener listener;
+
     List<Article> articleList;
 
     // Constructor
-    NewsRecyclerAdapter(List<Article> articleList){
+    NewsRecyclerAdapter(List<Article> articleList, OnNewsItemClickListener listener) {
+        this.listener = listener;
         this.articleList = articleList;
     }
 
@@ -39,6 +46,12 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
                 .error(R.drawable.no_image_icon)        // Drawable to show on error
                 .placeholder(R.drawable.no_image_icon) // Drawable to show while loading
                 .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onNewsItemClick(article);
+            }
+        });
     }
 
     @Override
